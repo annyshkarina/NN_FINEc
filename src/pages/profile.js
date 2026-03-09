@@ -1,5 +1,6 @@
 import { button, linkButton } from "../components/button.js";
 import { card } from "../components/card.js";
+import { DEMO_MODE_STORAGE_KEY } from "../utils/storageKeys.js";
 
 /**
  * @param {any} ctx
@@ -81,6 +82,11 @@ export async function profilePage(ctx) {
 
       const handleReset = () => {
         store.resetProgress();
+        try {
+          window.localStorage.removeItem(DEMO_MODE_STORAGE_KEY);
+        } catch {
+          // Ignore storage access failures.
+        }
         ctx.router.navigate("/home");
       };
 

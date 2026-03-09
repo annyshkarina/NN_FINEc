@@ -1,20 +1,18 @@
 # Financial Code: Walking Tour of Nizhny Novgorod
 
-Mobile-first SPA for a self-guided financial literacy tour. The app is static-hosting friendly and deployable to GitHub Pages.
+Mobile-first static SPA for a self-guided financial literacy tour.  
+The project is designed for GitHub Pages deployment and future backend migration.
 
-## Current implementation stage
+## What the app includes
 
-Step 2 is implemented:
+- route and transport selection
+- tour run page with map, live geolocation status, and point progression
+- unlock-by-radius logic with manual fallback
+- centralized audio guide playback (play/pause/stop/speed)
+- tasks and articles with lock/unlock states
+- local profile and persistent progress via `localStorage`
 
-- project structure
-- core services (content/storage/state/audio/route engine/router)
-- Yandex Maps integration
-- geolocation tracking with unlock-by-radius and manual fallback
-- audio system (play/pause/stop/speed with local persistence)
-- task system (locked/available/completed)
-- article system (locked/available + detail pages with related point)
-
-## Tech stack
+## Stack
 
 - Vite
 - Vanilla JavaScript (ES modules)
@@ -25,35 +23,29 @@ Step 2 is implemented:
 
 ## Architecture
 
-- `src/pages`: route-level pages
-- `src/components`: reusable UI blocks
-- `src/services`: content, map, geolocation, audio, storage, route engine
-- `src/state`: centralized local state with persistence
-- `src/utils`: router + helpers
-- `src/data`: JSON content and config
+- `src/pages` - route-level screens
+- `src/components` - reusable UI blocks
+- `src/services` - content/storage/map/geolocation/audio/domain logic
+- `src/state` - centralized app state
+- `src/utils` - router, math helpers, constants
+- `src/data` - JSON content and configuration
 
-## Setup
-
-1. Install dependencies:
+## 1) Install dependencies
 
 ```bash
 npm install
 ```
 
-2. Run dev server:
+## 2) Run dev server
 
 ```bash
 npm run dev
 ```
 
-3. Open local app URL from Vite output.
-
-## Configure Yandex Maps API key
+## 3) Configure Yandex Maps API key
 
 1. Copy `src/data/config.example.json` to `src/data/config.json`.
-2. Put your key into `YANDEX_MAPS_API_KEY`.
-
-`src/data/config.json` format:
+2. Set `YANDEX_MAPS_API_KEY`.
 
 ```json
 {
@@ -61,68 +53,70 @@ npm run dev
 }
 ```
 
-Security note:
+Security:
 
-- keep `src/data/config.json` with empty value in public repositories
+- keep `src/data/config.json` empty in public repos
 - do not commit real production keys
 
-If key is empty, map panel shows:
+Fallback behavior:
 
-`Map is unavailable. Please configure Yandex Maps API key.`
+- empty key: `Map is unavailable. Please configure Yandex Maps API key.`
+- API/network load failure: map panel switches to fallback message
 
-Geolocation fallback:
-
-- if permission is denied, the app shows `I reached the point` button.
-- if GPS is unstable/unavailable, you can proceed manually.
-
-Demo mode (for live defense):
-
-- open route with `#/run?demo=1`, or
-- use `Enable demo mode` button on the Run page.
-
-In demo mode, manual progression controls are always available.
-
-## Build
+## 4) Build project
 
 ```bash
 npm run build
 ```
 
-Production files are generated in `dist/`.
-
-For GitHub Pages-specific build (relative asset paths):
+For Pages deployment (explicit relative assets):
 
 ```bash
 npm run build:pages
 ```
 
-## Deploy to GitHub Pages
+## 5) Deploy to GitHub Pages
 
-1. Push repository to GitHub.
-2. Ensure default branch is `main`.
-3. In repository settings:
-   - Go to `Settings` -> `Pages`.
-   - Set source to `GitHub Actions`.
-4. Push to `main` (or run workflow manually).
-5. Workflow `.github/workflows/deploy.yml` builds with `npm run build:pages` and deploys `dist`.
+Workflow file: `.github/workflows/deploy.yml`
 
-## Final local testing checklist
+- triggers on push to `main` and `master` (plus manual run)
+- builds with `npm run build:pages`
+- deploys `dist` via `actions/deploy-pages`
 
-1. `npm install`
-2. `npm run dev`
-3. Open `#/run`:
-   - verify map fallback without API key
-   - verify map loads with valid key
-   - verify geolocation status updates
-   - verify manual `I reached the point` fallback works
-   - verify audio play/pause/stop/speed
-4. Verify tasks and articles unlock after point reach.
-5. Refresh the page and verify progress persistence.
-6. `npm run build:pages`
+Repository setup:
 
-## Local state model
+1. Open GitHub repository `Settings -> Pages`.
+2. Set Source to `GitHub Actions`.
+3. Push to `main` or `master`, or run workflow manually.
 
-User progress is stored in `localStorage`:
+## Routing model
+
+Hash routing is used for static hosting compatibility:
+
+- `#/home`
+- `#/excursions`
+- `#/transport`
+- `#/run`
+- `#/tasks`
+- `#/tasks/:taskId`
+- `#/articles`
+- `#/articles/:articleId`
+- `#/profile`
+- `#/about`
+
+## Geolocation and demo fallback
+
+- Normal mode: app tracks user position and unlocks point content inside `radiusMeters`.
+- If geolocation is denied/unavailable: user can use `I reached the point`.
+- Demo mode:
+  - `#/run?demo=1` forces demo mode for the current run view
+  - `#/run?demo=0` forces normal mode for the current run view
+  - run-page toggle persists demo mode in local storage
+- `Reset all progress` clears both tour progress and persisted demo-mode flag.
+
+## Local state persistence
+
+Progress is stored in `localStorage` with runtime validation and safe defaults:
 
 - `profile`
 - `selectedRouteId`
@@ -136,23 +130,24 @@ User progress is stored in `localStorage`:
 - `audioSpeed`
 - `lastKnownPosition`
 
-## Routing
+## Final local test checklist
 
-Hash router is used for GitHub Pages compatibility:
-
-- `#/home`
-- `#/excursions`
-- `#/transport`
-- `#/run`
-- `#/tasks`
-- `#/tasks/:taskId`
-- `#/articles`
-- `#/articles/:articleId`
-- `#/profile`
-- `#/about`
+1. `npm install`
+2. `npm run dev`
+3. Select route and transport, open `#/run`
+4. Verify:
+   - map key fallback (empty key)
+   - map rendering (valid key)
+   - geolocation status updates
+   - manual point confirmation fallback
+   - demo mode toggle and `#/run?demo=1`
+   - audio play/pause/stop/speed persistence
+   - article/task unlock after point reach
+5. Refresh page and verify progress persistence
+6. `npm run build:pages`
 
 ## Future improvements
 
-- move API key to encrypted runtime injection (for private production deployments)
-- add richer offline map fallback and cached content bundle
-- add automated unit/e2e tests for route progression and unlock logic
+- runtime-secure key injection strategy for private production deployments
+- offline map/content fallback for low-connectivity routes
+- automated unit/e2e tests for progression and unlock logic

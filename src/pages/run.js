@@ -4,8 +4,7 @@ import { card } from "../components/card.js";
 import { mapPanel } from "../components/mapPanel.js";
 import { showPointModal } from "../components/pointModal.js";
 import { progressBar } from "../components/progressBar.js";
-
-const DEMO_MODE_STORAGE_KEY = "financial-code-demo-mode";
+import { DEMO_MODE_STORAGE_KEY } from "../utils/storageKeys.js";
 
 /**
  * @param {any} ctx
@@ -58,6 +57,7 @@ export async function runPage(ctx) {
   const hasArticleRef = typeof currentPoint.articleId === "string" && currentPoint.articleId.trim() !== "";
   const hasTaskRef = typeof currentPoint.taskId === "string" && currentPoint.taskId.trim() !== "";
   const currentPointIndex = Math.max(0, bundle.points.findIndex((point) => point.id === currentPoint.id));
+  const canMoveToNextPoint = reached || demoModeEnabled;
 
   const body = `
     <article class="run-header">
@@ -108,7 +108,7 @@ export async function runPage(ctx) {
         })}
         ${button({
           label: "Next point",
-          attrs: "data-next-point",
+          attrs: `data-next-point ${canMoveToNextPoint ? "" : "disabled"}`,
         })}
         ${button({
           label: "Finish route",
@@ -210,6 +210,11 @@ export async function runPage(ctx) {
             mapSession.updateUserLocation(lastKnown);
           }
         } catch {
+          const mapPanelNode = mapContainer.closest(".map-panel");
+          if (mapPanelNode) {
+            mapPanelNode.classList.add("map-panel--fallback");
+            mapPanelNode.innerHTML = "<p>Map is unavailable right now.</p>";
+          }
           setStatus("Map is unavailable right now.");
         }
       }
@@ -368,24 +373,25 @@ export async function runPage(ctx) {
 
 function isDemoModeEnabled() {
   try {
+    const hash = window.location.hash || "";
+    const [, queryPart = ""] = hash.split("?");
+    const params = new URLSearchParams(queryPart);
+    const demoQueryValue = params.get("demo");
+
+    if (demoQueryValue === "1") {
+      return true;
+    }
+
+    if (demoQueryValue === "0") {
+      return false;
+    }
+
     const persisted = window.localStorage.getItem(DEMO_MODE_STORAGE_KEY);
     if (persisted === "1") {
       return true;
     }
 
     if (persisted === "0") {
-      return false;
-    }
-
-    const hash = window.location.hash || "";
-    const [, queryPart = ""] = hash.split("?");
-    const params = new URLSearchParams(queryPart);
-
-    if (params.get("demo") === "1") {
-      return true;
-    }
-
-    if (params.get("demo") === "0") {
       return false;
     }
 

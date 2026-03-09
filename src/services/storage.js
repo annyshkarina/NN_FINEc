@@ -1,4 +1,4 @@
-const STORAGE_KEY = "financial-code-tour-state-v1";
+import { TOUR_STATE_STORAGE_KEY } from "../utils/storageKeys.js";
 
 /** @typedef {import("../state/store.js").AppState} AppState */
 
@@ -48,7 +48,7 @@ function sanitizeState(state) {
  * Creates localStorage persistence service.
  * @param {{ storageKey?: string }} [options]
  */
-export function createStorageService({ storageKey = STORAGE_KEY } = {}) {
+export function createStorageService({ storageKey = TOUR_STATE_STORAGE_KEY } = {}) {
   /**
    * @param {AppState} defaultState
    * @returns {AppState}
