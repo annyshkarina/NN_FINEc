@@ -1,0 +1,103 @@
+:root {
+  --bg: #050814;
+  --bg-soft: #0c132a;
+  --surface: #121a30;
+  --surface-2: #1a2443;
+  --line: #324065;
+  --text: #edf2ff;
+  --muted: #aeb8d8;
+  --accent: #36c2ff;
+  --accent-2: #40d58b;
+  --danger: #ff6e7f;
+  --warning: #ffd166;
+  --shadow: 0 12px 32px rgba(0, 0, 0, 0.45);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  min-height: 100%;
+}
+
+body {
+  font-family: "Avenir Next", "Montserrat", "Segoe UI", sans-serif;
+  color: var(--text);
+  background:
+    radial-gradient(circle at 8% 12%, rgba(54, 194, 255, 0.14), transparent 30%),
+    radial-gradient(circle at 88% 8%, rgba(64, 213, 139, 0.14), transparent 26%),
+    linear-gradient(180deg, #050814 0%, #080d1d 46%, #0a1021 100%);
+}
+
+h1,
+h2,
+h3,
+p {
+  margin: 0;
+}
+
+a {
+  color: inherit;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}
+
+.text-muted {
+  color: var(--muted);
+}
+
+.stack {
+  display: grid;
+  gap: 12px;
+}
+
+.inline-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.tag-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.tag {
+  display: inline-flex;
+  align-items: center;
+  min-height: 26px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: rgba(54, 194, 255, 0.12);
+  border: 1px solid rgba(54, 194, 255, 0.4);
+  color: #d8ecff;
+  font-size: 12px;
+  letter-spacing: 0.2px;
+}
+
+.status-locked {
+  background: rgba(255, 110, 127, 0.12);
+  border-color: rgba(255, 110, 127, 0.36);
+}
+
+.status-available {
+  background: rgba(64, 213, 139, 0.12);
+  border-color: rgba(64, 213, 139, 0.4);
+}
+
+.status-completed {
+  background: rgba(64, 213, 139, 0.18);
+  border-color: rgba(64, 213, 139, 0.5);
+}
+
+a[aria-disabled="true"] {
+  pointer-events: none;
+  opacity: 0.55;
+}

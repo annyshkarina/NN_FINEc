@@ -1,0 +1,32 @@
+[
+  {
+    "id": "route-1",
+    "slug": "financial-nizhny",
+    "title": "Financial Code: Центр Нижнего",
+    "description": "Пешеходная экскурсия о финансовых аферах, банках и экономической истории города.",
+    "theme": "Финансовая грамотность через историю города",
+    "coverImage": "./assets/images/routes/route1.jpg",
+    "startPointId": "point-1",
+    "transportDurations": {
+      "walk": 120,
+      "scooter": 105,
+      "car": 90
+    },
+    "points": ["point-1", "point-2", "point-3", "point-4"]
+  },
+  {
+    "id": "route-2",
+    "slug": "banks-and-fraud",
+    "title": "Банки и мошенничество XIX-XX века",
+    "description": "Короткий маршрут по местам, связанным с банковскими практиками и резонансными аферами.",
+    "theme": "История финансовых рисков",
+    "coverImage": "./assets/images/routes/route2.jpg",
+    "startPointId": "point-5",
+    "transportDurations": {
+      "walk": 90,
+      "scooter": 75,
+      "car": 60
+    },
+    "points": ["point-5", "point-6", "point-7"]
+  }
+]

@@ -1,0 +1,72 @@
+[
+  {
+    "id": "task-1",
+    "routeId": "route-1",
+    "pointId": "point-1",
+    "title": "Найдите финансовые символы",
+    "type": "observation",
+    "description": "Определите 2 архитектурных элемента, которые должны были вызывать доверие к банку.",
+    "rewardPoints": 10,
+    "canSkip": true
+  },
+  {
+    "id": "task-2",
+    "routeId": "route-1",
+    "pointId": "point-2",
+    "title": "Разберите риск-сценарий",
+    "type": "reflection",
+    "description": "Представьте, что вы городской казначей. Назовите 2 риска для бюджета и 1 способ их снизить.",
+    "rewardPoints": 15,
+    "canSkip": true
+  },
+  {
+    "id": "task-3",
+    "routeId": "route-1",
+    "pointId": "point-3",
+    "title": "Инфраструктура и деньги",
+    "type": "analysis",
+    "description": "Опишите, как транспортная доступность этой точки может влиять на бизнес рядом.",
+    "rewardPoints": 20,
+    "canSkip": false
+  },
+  {
+    "id": "task-4",
+    "routeId": "route-1",
+    "pointId": "point-4",
+    "title": "Антимошенническая проверка",
+    "type": "quiz",
+    "description": "Назовите 3 признака сомнительного инвестиционного предложения.",
+    "rewardPoints": 20,
+    "canSkip": true
+  },
+  {
+    "id": "task-5",
+    "routeId": "route-2",
+    "pointId": "point-5",
+    "title": "Проверка контрагента",
+    "type": "observation",
+    "description": "Составьте короткий чек-лист из 4 пунктов для проверки партнера по сделке.",
+    "rewardPoints": 10,
+    "canSkip": true
+  },
+  {
+    "id": "task-6",
+    "routeId": "route-2",
+    "pointId": "point-6",
+    "title": "Защита договора",
+    "type": "reflection",
+    "description": "Укажите 2 условия, которые нужно обязательно добавить в договор, чтобы снизить риск спора.",
+    "rewardPoints": 15,
+    "canSkip": true
+  },
+  {
+    "id": "task-7",
+    "routeId": "route-2",
+    "pointId": "point-7",
+    "title": "Безопасность данных",
+    "type": "analysis",
+    "description": "Приведите 2 современных примера, как защищать финансовые данные от подделки и утечки.",
+    "rewardPoints": 20,
+    "canSkip": false
+  }
+]
