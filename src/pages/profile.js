@@ -16,46 +16,46 @@ export async function profilePage(ctx) {
   const body = `
     <form class="profile-form" data-profile-form>
       <label>
-        Name
-        <input type="text" name="name" value="${escapeHtml(state.profile.name)}" placeholder="Your name" maxlength="80" />
+        Имя
+        <input type="text" name="name" value="${escapeHtml(state.profile.name)}" placeholder="Ваше имя" maxlength="80" />
       </label>
       <label>
-        Age
-        <input type="number" name="age" value="${state.profile.age ?? ""}" min="7" max="120" placeholder="Age" />
+        Возраст
+        <input type="number" name="age" value="${state.profile.age ?? ""}" min="7" max="120" placeholder="Возраст" />
       </label>
-      ${button({ label: "Save profile", type: "submit", variant: "primary" })}
+      ${button({ label: "Сохранить профиль", type: "submit", variant: "primary" })}
     </form>
 
     <section class="profile-metrics">
       <div class="stats-grid">
         <article class="stat-card">
           <span class="stat-card__value">${state.completedTasks.length}</span>
-          <span class="stat-card__label">Completed tasks</span>
+          <span class="stat-card__label">Выполнено заданий</span>
         </article>
         <article class="stat-card">
           <span class="stat-card__value">${state.reachedPoints.length}</span>
-          <span class="stat-card__label">Reached points</span>
+          <span class="stat-card__label">Пройдено точек</span>
         </article>
         <article class="stat-card">
           <span class="stat-card__value">${state.finishedRoutes.length}</span>
-          <span class="stat-card__label">Finished routes</span>
+          <span class="stat-card__label">Завершено маршрутов</span>
         </article>
       </div>
-      <p class="text-muted">Current route: ${selectedRoute?.title || "Not selected"}</p>
-      ${button({ label: "Reset all progress", variant: "danger", attrs: "data-reset-progress" })}
+      <p class="text-muted">Текущий маршрут: ${selectedRoute?.title || "не выбран"}</p>
+      ${button({ label: "Сбросить весь прогресс", variant: "danger", attrs: "data-reset-progress" })}
     </section>
   `;
 
   return {
     activeNav: "profile",
     html: card({
-      title: "Profile",
-      subtitle: "Stored locally on your device.",
+      title: "Профиль",
+      subtitle: "Данные сохраняются локально на вашем устройстве.",
       body,
       footer: `
         <div class="inline-actions">
-          ${linkButton({ label: "Home", href: "#/home" })}
-          ${linkButton({ label: "Run", href: "#/run", variant: "primary" })}
+          ${linkButton({ label: "На главную", href: "#/home" })}
+          ${linkButton({ label: "К маршруту", href: "#/run", variant: "primary" })}
         </div>
       `,
     }),
@@ -71,7 +71,6 @@ export async function profilePage(ctx) {
 
         const formData = new FormData(form);
         const rawAge = formData.get("age");
-
         const age = typeof rawAge === "string" && rawAge.trim() !== "" ? Number(rawAge) : null;
 
         store.setProfile({

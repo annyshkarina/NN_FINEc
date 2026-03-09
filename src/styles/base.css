@@ -1,16 +1,15 @@
 :root {
-  --bg: #050814;
-  --bg-soft: #0c132a;
-  --surface: #121a30;
-  --surface-2: #1a2443;
-  --line: #324065;
-  --text: #edf2ff;
-  --muted: #aeb8d8;
-  --accent: #36c2ff;
-  --accent-2: #40d58b;
-  --danger: #ff6e7f;
-  --warning: #ffd166;
-  --shadow: 0 12px 32px rgba(0, 0, 0, 0.45);
+  --bg: #052b33;
+  --bg-soft: #0c3b43;
+  --surface: #f4faf9;
+  --surface-2: #e8f2f1;
+  --line: #bfd4d2;
+  --text: #11272b;
+  --muted: #4e676b;
+  --accent: #1f8f9e;
+  --accent-2: #2aa99a;
+  --danger: #c64d5e;
+  --shadow: 0 10px 28px rgba(2, 20, 24, 0.24);
 }
 
 * {
@@ -24,12 +23,12 @@ body {
 }
 
 body {
-  font-family: "Avenir Next", "Montserrat", "Segoe UI", sans-serif;
+  font-family: "Manrope", "Avenir Next", "Montserrat", "Segoe UI", sans-serif;
   color: var(--text);
   background:
-    radial-gradient(circle at 8% 12%, rgba(54, 194, 255, 0.14), transparent 30%),
-    radial-gradient(circle at 88% 8%, rgba(64, 213, 139, 0.14), transparent 26%),
-    linear-gradient(180deg, #050814 0%, #080d1d 46%, #0a1021 100%);
+    radial-gradient(circle at 12% 10%, rgba(68, 188, 173, 0.24), transparent 28%),
+    radial-gradient(circle at 86% 0%, rgba(35, 145, 160, 0.2), transparent 30%),
+    linear-gradient(180deg, #052b33 0%, #08363f 45%, #0b4551 100%);
 }
 
 h1,
@@ -75,29 +74,32 @@ img {
   min-height: 26px;
   padding: 4px 10px;
   border-radius: 999px;
-  background: rgba(54, 194, 255, 0.12);
-  border: 1px solid rgba(54, 194, 255, 0.4);
-  color: #d8ecff;
+  background: rgba(31, 143, 158, 0.14);
+  border: 1px solid rgba(31, 143, 158, 0.42);
+  color: #135058;
   font-size: 12px;
   letter-spacing: 0.2px;
 }
 
 .status-locked {
-  background: rgba(255, 110, 127, 0.12);
-  border-color: rgba(255, 110, 127, 0.36);
+  background: rgba(198, 77, 94, 0.12);
+  border-color: rgba(198, 77, 94, 0.38);
+  color: #7b2b38;
 }
 
 .status-available {
-  background: rgba(64, 213, 139, 0.12);
-  border-color: rgba(64, 213, 139, 0.4);
+  background: rgba(42, 169, 154, 0.12);
+  border-color: rgba(42, 169, 154, 0.45);
+  color: #14685e;
 }
 
 .status-completed {
-  background: rgba(64, 213, 139, 0.18);
-  border-color: rgba(64, 213, 139, 0.5);
+  background: rgba(42, 169, 154, 0.2);
+  border-color: rgba(42, 169, 154, 0.55);
+  color: #145f56;
 }
 
 a[aria-disabled="true"] {
   pointer-events: none;
-  opacity: 0.55;
+  opacity: 0.5;
 }

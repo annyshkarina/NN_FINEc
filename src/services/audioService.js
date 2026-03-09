@@ -41,7 +41,7 @@ export function createAudioService({ store }) {
   audio.addEventListener("ended", emit);
   audio.addEventListener("timeupdate", emit);
   audio.addEventListener("error", () => {
-    errorMessage = "Audio file is unavailable or broken.";
+    errorMessage = "Аудиофайл недоступен или поврежден.";
     emit();
   });
 
@@ -52,7 +52,7 @@ export function createAudioService({ store }) {
    */
   async function play(src) {
     if (!src) {
-      throw new Error("Audio source is not configured.");
+      throw new Error("Источник аудио не настроен.");
     }
 
     if (src !== currentSrc) {

@@ -117,7 +117,7 @@ export function createMapService() {
           {
             hintContent: point.title,
             balloonContentHeader: point.title,
-            balloonContentBody: `Point ${index + 1}`,
+            balloonContentBody: `Точка ${index + 1}`,
           },
           {
             preset,
@@ -168,7 +168,7 @@ export function createMapService() {
         userMarker = new ymaps.Placemark(
           coords,
           {
-            hintContent: "You are here",
+            hintContent: "Вы здесь",
           },
           {
             preset: "islands#violetCircleDotIcon",

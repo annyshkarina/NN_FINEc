@@ -10,13 +10,13 @@ export function showPointModal(payload) {
   const modal = fromHtml(`
     <div class="point-modal" data-point-modal>
       <div class="point-modal__overlay" data-close-modal></div>
-      <article class="point-modal__content" role="dialog" aria-modal="true" aria-label="Point reached">
+      <article class="point-modal__content" role="dialog" aria-modal="true" aria-label="Точка достигнута">
         <header>
           <h3>${payload.title}</h3>
           <p>${payload.summary}</p>
         </header>
-        <p><strong>Financial insight:</strong> ${payload.insight}</p>
-        <button class="btn btn--primary" type="button" data-close-modal>Continue</button>
+        <p><strong>Финансовый вывод:</strong> ${payload.insight}</p>
+        <button class="btn btn--primary" type="button" data-close-modal>Продолжить</button>
       </article>
     </div>
   `);

@@ -15,7 +15,7 @@ export function createGeolocationService() {
    */
   function watchPosition({ onPosition, onError, options }) {
     if (!isSupported()) {
-      throw new Error("Geolocation is not supported by this browser.");
+      throw new Error("Геолокация не поддерживается этим браузером.");
     }
 
     const watchId = navigator.geolocation.watchPosition(

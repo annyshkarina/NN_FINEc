@@ -1,12 +1,8 @@
 import { card } from "../components/card.js";
 import { button, linkButton } from "../components/button.js";
+import { mascotCat } from "../components/mascotCat.js";
 import { formatMinutes } from "../utils/time.js";
-
-const TRANSPORT_LABELS = {
-  walk: "Walk",
-  scooter: "Scooter",
-  car: "Car",
-};
+import { TRANSPORT_LABELS } from "../utils/labels.js";
 
 /**
  * @param {any} ctx
@@ -19,9 +15,9 @@ export async function transportPage(ctx) {
     return {
       activeNav: "excursions",
       html: card({
-        title: "Transport",
-        body: `<p class="text-muted">Choose a route first.</p>`,
-        footer: linkButton({ label: "Go to routes", href: "#/excursions", variant: "primary" }),
+        title: "Транспорт",
+        body: `<p class="text-muted">Сначала выберите маршрут.</p>`,
+        footer: linkButton({ label: "К выбору маршрута", href: "#/excursions", variant: "primary" }),
       }),
     };
   }
@@ -32,9 +28,9 @@ export async function transportPage(ctx) {
     return {
       activeNav: "excursions",
       html: card({
-        title: "Transport",
-        body: `<p class="text-muted">Selected route is unavailable.</p>`,
-        footer: linkButton({ label: "Choose route", href: "#/excursions", variant: "primary" }),
+        title: "Транспорт",
+        body: `<p class="text-muted">Выбранный маршрут недоступен.</p>`,
+        footer: linkButton({ label: "Выбрать маршрут", href: "#/excursions", variant: "primary" }),
       }),
     };
   }
@@ -42,6 +38,12 @@ export async function transportPage(ctx) {
   const modes = contentService.getTransportModes();
 
   const body = `
+    ${mascotCat({
+      variant: "transport",
+      compact: true,
+      message: "Темп экскурсии влияет на длительность. Выберите удобный способ передвижения.",
+    })}
+
     <p class="text-muted"><strong>${selectedRoute.title}</strong></p>
     <div class="stack">
       ${modes
@@ -52,10 +54,10 @@ export async function transportPage(ctx) {
             <article class="transport-card ${isActive ? "is-active" : ""}">
               <div>
                 <h3>${TRANSPORT_LABELS[mode.id]}</h3>
-                <p class="text-muted">Estimated duration: ${formatMinutes(duration)}</p>
+                <p class="text-muted">Примерная длительность: ${formatMinutes(duration)}</p>
               </div>
               ${button({
-                label: isActive ? "Selected" : "Use this",
+                label: isActive ? "Выбрано" : "Выбрать",
                 variant: "primary",
                 attrs: `data-transport="${mode.id}" ${isActive ? "disabled" : ""}`,
               })}
@@ -69,13 +71,13 @@ export async function transportPage(ctx) {
   return {
     activeNav: "excursions",
     html: card({
-      title: "Choose transport",
-      subtitle: "Duration recalculates for each transport mode.",
+      title: "Выбор транспорта",
+      subtitle: "Маршрут и время пересчитываются автоматически.",
       body,
       footer: `
         <div class="inline-actions">
-          ${linkButton({ label: "Back", href: "#/excursions" })}
-          ${linkButton({ label: "Start run", href: "#/run", variant: "primary" })}
+          ${linkButton({ label: "Назад", href: "#/excursions" })}
+          ${linkButton({ label: "К маршруту", href: "#/run", variant: "primary" })}
         </div>
       `,
     }),

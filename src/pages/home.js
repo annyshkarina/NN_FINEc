@@ -2,6 +2,7 @@ import { card } from "../components/card.js";
 import { linkButton } from "../components/button.js";
 import { mascotCat } from "../components/mascotCat.js";
 import { progressBar } from "../components/progressBar.js";
+import { formatTransportMode } from "../utils/labels.js";
 
 /**
  * @param {any} ctx
@@ -20,15 +21,15 @@ export async function homePage(ctx) {
     <div class="stats-grid">
       <article class="stat-card">
         <span class="stat-card__value">${state.reachedPoints.length}</span>
-        <span class="stat-card__label">Points reached</span>
+        <span class="stat-card__label">Точек пройдено</span>
       </article>
       <article class="stat-card">
         <span class="stat-card__value">${state.completedTasks.length}</span>
-        <span class="stat-card__label">Tasks completed</span>
+        <span class="stat-card__label">Заданий выполнено</span>
       </article>
       <article class="stat-card">
         <span class="stat-card__value">${state.finishedRoutes.length}</span>
-        <span class="stat-card__label">Routes finished</span>
+        <span class="stat-card__label">Маршрутов завершено</span>
       </article>
     </div>
   `;
@@ -37,47 +38,55 @@ export async function homePage(ctx) {
     ? `
       <h3>${selectedRoute.title}</h3>
       <p class="text-muted">${selectedRoute.description}</p>
+      <p class="text-muted">Текущий режим: ${formatTransportMode(state.selectedTransport)}</p>
       ${progressBar({
-        label: "Current route progress",
+        label: "Прогресс по маршруту",
         value: progress.reached,
         max: progress.total,
       })}
       <div class="inline-actions">
-        ${linkButton({ label: "Continue tour", href: "#/run", variant: "primary" })}
-        ${linkButton({ label: "Transport", href: "#/transport" })}
+        ${linkButton({ label: "Продолжить маршрут", href: "#/run", variant: "primary" })}
+        ${linkButton({ label: "Выбрать транспорт", href: "#/transport" })}
       </div>
     `
     : `
-      <p class="text-muted">Choose a route to start the tour.</p>
+      <p class="text-muted">Выберите экскурсию и начните прогулку по финансовым историям города.</p>
       <div class="inline-actions">
-        ${linkButton({ label: "Choose route", href: "#/excursions", variant: "primary" })}
+        ${linkButton({ label: "Выбрать маршрут", href: "#/excursions", variant: "primary" })}
       </div>
     `;
 
   const content = `
     <section class="hero">
-      <h1>Financial Code: Walking Tour of Nizhny Novgorod</h1>
+      <h1>Нижний Новгород: по стопам мошенника</h1>
       <p>
-        Learn financial literacy by walking through real city stories about fraud,
-        banking institutions and economic risk management.
+        Самостоятельный аудиомаршрут по местам, где переплелись сделки, аферы,
+        доверие и финансовая грамотность.
       </p>
-      ${mascotCat({ message: "Tip: reach points physically to unlock articles and tasks." })}
+      ${mascotCat({
+        variant: "hero",
+        message: "Я проведу вас по точкам, где история города учит распознавать финансовые риски.",
+      })}
+      <div class="inline-actions">
+        ${linkButton({ label: "Начать маршрут", href: "#/excursions", variant: "primary" })}
+        ${linkButton({ label: "О проекте", href: "#/about" })}
+      </div>
     </section>
 
     ${card({
-      title: "Your session",
-      subtitle: `${routes.length} available routes`,
+      title: "Текущая сессия",
+      subtitle: `Доступно маршрутов: ${routes.length}`,
       body: routeSummary,
     })}
 
     ${card({
-      title: "Overall progress",
+      title: "Общий прогресс",
       body: stats,
       footer: `
         <div class="inline-actions">
-          ${linkButton({ label: "Tasks", href: "#/tasks" })}
-          ${linkButton({ label: "Articles", href: "#/articles" })}
-          ${linkButton({ label: "Profile", href: "#/profile" })}
+          ${linkButton({ label: "Задания", href: "#/tasks" })}
+          ${linkButton({ label: "Статьи", href: "#/articles" })}
+          ${linkButton({ label: "Профиль", href: "#/profile" })}
         </div>
       `,
     })}

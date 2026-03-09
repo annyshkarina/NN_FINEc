@@ -1,5 +1,7 @@
 import { card } from "../components/card.js";
 import { linkButton } from "../components/button.js";
+import { mascotCat } from "../components/mascotCat.js";
+import { formatTaskStatus, formatTaskType } from "../utils/labels.js";
 
 /**
  * @param {any} ctx
@@ -8,6 +10,12 @@ export async function tasksPage(ctx) {
   const items = await ctx.routeEngine.getTasksOverview();
 
   const body = `
+    ${mascotCat({
+      variant: "task",
+      compact: true,
+      message: "Задания открываются после достижения точки. Выполняйте их, чтобы закрепить финансовые выводы.",
+    })}
+
     <div class="stack">
       ${items
         .map((task) => {
@@ -18,12 +26,12 @@ export async function tasksPage(ctx) {
                 <p class="text-muted">${task.routeTitle} · ${task.pointTitle}</p>
               </header>
               <div class="tag-row">
-                <span class="tag">${task.type}</span>
-                <span class="tag">${task.rewardPoints} pts</span>
-                <span class="tag status-${task.status}">${task.status}</span>
+                <span class="tag">${formatTaskType(task.type)}</span>
+                <span class="tag">${task.rewardPoints} баллов</span>
+                <span class="tag status-${task.status}">${formatTaskStatus(task.status)}</span>
               </div>
               <div class="inline-actions">
-                ${linkButton({ label: "Open", href: `#/tasks/${task.id}` })}
+                ${linkButton({ label: "Открыть", href: `#/tasks/${task.id}` })}
               </div>
             </article>
           `;
@@ -35,13 +43,13 @@ export async function tasksPage(ctx) {
   return {
     activeNav: "tasks",
     html: card({
-      title: "Tasks",
-      subtitle: "State model: locked -> available -> completed.",
+      title: "Задания",
+      subtitle: "Состояния: закрыто → доступно → выполнено.",
       body,
       footer: `
         <div class="inline-actions">
-          ${linkButton({ label: "Run", href: "#/run" })}
-          ${linkButton({ label: "Articles", href: "#/articles" })}
+          ${linkButton({ label: "К маршруту", href: "#/run" })}
+          ${linkButton({ label: "Статьи", href: "#/articles" })}
         </div>
       `,
     }),

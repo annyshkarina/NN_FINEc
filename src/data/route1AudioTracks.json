@@ -1,15 +1,9 @@
 [
-  { "order": 1, "title": "Нижегородский острог", "src": "./assets/audio/route1/point-01.mp3" },
-  { "order": 2, "title": "Ошарская улица", "src": "./assets/audio/route1/point-02.mp3" },
-  { "order": 3, "title": "Нижегородское отделение государственного банка", "src": "./assets/audio/route1/point-03.mp3" },
-  { "order": 4, "title": "Выставочный зал", "src": "./assets/audio/route1/point-04.mp3" },
-  { "order": 5, "title": "Мытный рынок", "src": "./assets/audio/route1/point-05.mp3" },
-  { "order": 6, "title": "Площадь Минина и Пожарского", "src": "./assets/audio/route1/point-06.mp3" },
-  { "order": 7, "title": "Никольская башня", "src": "./assets/audio/route1/point-07.mp3" },
-  { "order": 8, "title": "Ночлежный дом Бугрова", "src": "./assets/audio/route1/point-08.mp3" },
-  { "order": 9, "title": "Банк С.М. Рукавишникова", "src": "./assets/audio/route1/point-09.mp3" },
-  { "order": 10, "title": "Волжско-Камский Банк", "src": "./assets/audio/route1/point-10.mp3" },
-  { "order": 11, "title": "Блиновский пассаж", "src": "./assets/audio/route1/point-11.mp3" },
-  { "order": 12, "title": "Нижегородская биржа", "src": "./assets/audio/route1/point-12.mp3" },
-  { "order": 13, "title": "Главный ярмарочный дом", "src": "./assets/audio/route1/point-13.mp3" }
+  { "routeId": "route-1", "pointId": "point-1", "order": 1, "title": "Нижегородский острог", "src": "./assets/audio/route1/point-01.mp3" },
+  { "routeId": "route-1", "pointId": "point-2", "order": 2, "title": "Ошарская улица", "src": "./assets/audio/route1/point-02.mp3" },
+  { "routeId": "route-1", "pointId": "point-3", "order": 3, "title": "Нижегородское отделение Государственного банка", "src": "./assets/audio/route1/point-03.mp3" },
+  { "routeId": "route-1", "pointId": "point-4", "order": 4, "title": "Выставочный зал «Покровка, 8»", "src": "./assets/audio/route1/point-04.mp3" },
+  { "routeId": "route-2", "pointId": "point-5", "order": 1, "title": "Мытный рынок", "src": "./assets/audio/route1/point-05.mp3" },
+  { "routeId": "route-2", "pointId": "point-6", "order": 2, "title": "Площадь Минина и Пожарского", "src": "./assets/audio/route1/point-06.mp3" },
+  { "routeId": "route-2", "pointId": "point-7", "order": 3, "title": "Никольская башня", "src": "./assets/audio/route1/point-07.mp3" }
 ]

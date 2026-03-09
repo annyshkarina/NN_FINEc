@@ -1,11 +1,11 @@
 const NAV_ITEMS = [
-  { id: "home", label: "Home", href: "#/home" },
-  { id: "excursions", label: "Tours", href: "#/excursions" },
-  { id: "run", label: "Run", href: "#/run" },
-  { id: "tasks", label: "Tasks", href: "#/tasks" },
-  { id: "articles", label: "Articles", href: "#/articles" },
-  { id: "profile", label: "Profile", href: "#/profile" },
-  { id: "about", label: "About", href: "#/about" },
+  { id: "home", label: "Дом", href: "#/home" },
+  { id: "excursions", label: "Экскурсии", href: "#/excursions" },
+  { id: "run", label: "Маршрут", href: "#/run" },
+  { id: "tasks", label: "Задания", href: "#/tasks" },
+  { id: "articles", label: "Статьи", href: "#/articles" },
+  { id: "profile", label: "Профиль", href: "#/profile" },
+  { id: "about", label: "О проекте", href: "#/about" },
 ];
 
 /**
@@ -15,10 +15,10 @@ export function navbar({ active = "home" } = {}) {
   return `
     <header class="topbar">
       <div class="topbar__brand">
-        <span class="topbar__title">Financial Code</span>
-        <span class="topbar__subtitle">Walking Tour of Nizhny Novgorod</span>
+        <span class="topbar__title">Нижний Новгород: по стопам мошенника</span>
+        <span class="topbar__subtitle">Исторический маршрут по финансовым аферам</span>
       </div>
-      <nav class="topbar__nav" aria-label="Main navigation">
+      <nav class="topbar__nav" aria-label="Навигация">
         ${NAV_ITEMS.map((item) => `
           <a href="${item.href}" class="topbar__link ${item.id === active ? "is-active" : ""}">${item.label}</a>
         `).join("")}

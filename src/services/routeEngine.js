@@ -205,7 +205,7 @@ export function createRouteEngine({ contentService, store }) {
             routeId: task.routeId,
             routeTitle: route.title,
             pointId: task.pointId,
-            pointTitle: point?.title || "Unknown point",
+            pointTitle: point?.title || "Неизвестная точка",
             pointOrder: point?.order ?? Number.MAX_SAFE_INTEGER,
             routeOrder: routeIndex,
             title: task.title,
@@ -253,8 +253,8 @@ export function createRouteEngine({ contentService, store }) {
 
     return {
       ...task,
-      routeTitle: route?.title || "Route",
-      pointTitle: point?.title || "Point",
+      routeTitle: route?.title || "Маршрут",
+      pointTitle: point?.title || "Точка",
       status,
       canComplete: status === "available",
     };
@@ -315,7 +315,7 @@ export function createRouteEngine({ contentService, store }) {
             routeId: article.routeId,
             routeTitle: route.title,
             pointId: article.pointId,
-            pointTitle: point?.title || "Unknown point",
+            pointTitle: point?.title || "Неизвестная точка",
             pointOrder: point?.order ?? Number.MAX_SAFE_INTEGER,
             routeOrder: routeIndex,
             title: article.title,
@@ -359,8 +359,8 @@ export function createRouteEngine({ contentService, store }) {
 
     return {
       ...article,
-      routeTitle: route?.title || "Route",
-      pointTitle: point?.title || "Point",
+      routeTitle: route?.title || "Маршрут",
+      pointTitle: point?.title || "Точка",
       relatedPoint: point,
       status: getArticleStatus(article.id, state),
       unlocked: state.unlockedArticles.includes(article.id),

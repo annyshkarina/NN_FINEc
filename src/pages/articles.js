@@ -1,5 +1,7 @@
 import { card } from "../components/card.js";
 import { linkButton } from "../components/button.js";
+import { mascotCat } from "../components/mascotCat.js";
+import { formatArticleStatus } from "../utils/labels.js";
 
 /**
  * @param {any} ctx
@@ -8,6 +10,12 @@ export async function articlesPage(ctx) {
   const items = await ctx.routeEngine.getArticlesOverview();
 
   const body = `
+    ${mascotCat({
+      variant: "article",
+      compact: true,
+      message: "Статьи открываются по мере прохождения маршрута и помогают связать историю места с рисками сегодняшнего дня.",
+    })}
+
     <div class="stack">
       ${items
         .map((article) => {
@@ -19,10 +27,10 @@ export async function articlesPage(ctx) {
               </header>
               <p>${article.summary}</p>
               <div class="tag-row">
-                <span class="tag ${article.status === "available" ? "status-available" : "status-locked"}">${article.status}</span>
+                <span class="tag ${article.status === "available" ? "status-available" : "status-locked"}">${formatArticleStatus(article.status)}</span>
               </div>
               <div class="inline-actions">
-                ${linkButton({ label: "Read", href: `#/articles/${article.id}` })}
+                ${linkButton({ label: "Читать", href: `#/articles/${article.id}` })}
               </div>
             </article>
           `;
@@ -34,13 +42,13 @@ export async function articlesPage(ctx) {
   return {
     activeNav: "articles",
     html: card({
-      title: "Articles",
-      subtitle: "Articles unlock when route points are reached.",
+      title: "Статьи",
+      subtitle: "Исторические материалы открываются после достижения точек.",
       body,
       footer: `
         <div class="inline-actions">
-          ${linkButton({ label: "Run", href: "#/run" })}
-          ${linkButton({ label: "Tasks", href: "#/tasks" })}
+          ${linkButton({ label: "К маршруту", href: "#/run" })}
+          ${linkButton({ label: "Задания", href: "#/tasks" })}
         </div>
       `,
     }),

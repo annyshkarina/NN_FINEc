@@ -1,5 +1,5 @@
 /**
- * Formats minutes into `Xh Ym` label.
+ * Formats minutes into Russian label.
  * @param {number} minutes
  * @returns {string}
  */
@@ -9,12 +9,12 @@ export function formatMinutes(minutes) {
   const mins = safe % 60;
 
   if (hours === 0) {
-    return `${mins} min`;
+    return `${mins} мин`;
   }
 
   if (mins === 0) {
-    return `${hours}h`;
+    return `${hours} ч`;
   }
 
-  return `${hours}h ${mins}m`;
+  return `${hours} ч ${mins} мин`;
 }

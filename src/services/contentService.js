@@ -172,9 +172,9 @@ export function createContentService() {
    */
   function getTransportModes() {
     return [
-      { id: "walk", label: "Walk" },
-      { id: "scooter", label: "Scooter" },
-      { id: "car", label: "Car" },
+      { id: "walk", label: "Пешком" },
+      { id: "scooter", label: "Самокат" },
+      { id: "car", label: "Авто" },
     ];
   }
 
