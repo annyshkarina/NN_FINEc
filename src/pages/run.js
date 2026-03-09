@@ -5,6 +5,8 @@ import { mapPanel } from "../components/mapPanel.js";
 import { showPointModal } from "../components/pointModal.js";
 import { progressBar } from "../components/progressBar.js";
 
+const DEMO_MODE_STORAGE_KEY = "financial-code-demo-mode";
+
 /**
  * @param {any} ctx
  */
@@ -36,7 +38,7 @@ export async function runPage(ctx) {
     };
   }
 
-  const currentPoint = bundle.points[state.currentPointIndex] || null;
+  const currentPoint = await routeEngine.getCurrentPoint();
   const progress = await routeEngine.getProgress();
 
   if (!currentPoint) {
@@ -52,11 +54,15 @@ export async function runPage(ctx) {
   const reached = state.reachedPoints.includes(currentPoint.id);
   const hasApiKey = Boolean(config.YANDEX_MAPS_API_KEY.trim());
   const geolocationSupported = ctx.geolocationService.isSupported();
+  const demoModeEnabled = isDemoModeEnabled();
+  const hasArticleRef = typeof currentPoint.articleId === "string" && currentPoint.articleId.trim() !== "";
+  const hasTaskRef = typeof currentPoint.taskId === "string" && currentPoint.taskId.trim() !== "";
+  const currentPointIndex = Math.max(0, bundle.points.findIndex((point) => point.id === currentPoint.id));
 
   const body = `
     <article class="run-header">
       <h2>${bundle.route.title}</h2>
-      <p class="text-muted">Current point: ${state.currentPointIndex + 1}/${bundle.points.length}</p>
+      <p class="text-muted">Current point: ${currentPointIndex + 1}/${bundle.points.length}</p>
       ${progressBar({ label: "Reached points", value: progress.reached, max: progress.total })}
     </article>
 
@@ -83,14 +89,14 @@ export async function runPage(ctx) {
 
       <div class="inline-actions">
         ${linkButton({
-          label: "Article",
-          href: `#/articles/${currentPoint.articleId}`,
-          attrs: reached ? "" : "aria-disabled=true data-locked-content=true",
+          label: hasArticleRef ? "Article" : "Article unavailable",
+          href: hasArticleRef ? `#/articles/${currentPoint.articleId}` : "#",
+          attrs: (reached && hasArticleRef) ? "" : "aria-disabled=true data-locked-content=true",
         })}
         ${linkButton({
-          label: "Task",
-          href: `#/tasks/${currentPoint.taskId}`,
-          attrs: reached ? "" : "aria-disabled=true data-locked-content=true",
+          label: hasTaskRef ? "Task" : "Task unavailable",
+          href: hasTaskRef ? `#/tasks/${currentPoint.taskId}` : "#",
+          attrs: (reached && hasTaskRef) ? "" : "aria-disabled=true data-locked-content=true",
         })}
       </div>
 
@@ -98,15 +104,29 @@ export async function runPage(ctx) {
         ${button({
           label: reached ? "Point reached" : "I reached the point",
           variant: "primary",
-          attrs: `data-manual-reach ${geolocationSupported ? "hidden" : ""} ${reached ? "disabled" : ""}`,
+          attrs: `data-manual-reach ${(geolocationSupported && !demoModeEnabled) ? "hidden" : ""} ${reached ? "disabled" : ""}`,
         })}
         ${button({
           label: "Next point",
           attrs: "data-next-point",
         })}
+        ${button({
+          label: "Finish route",
+          variant: "danger",
+          attrs: "data-finish-route",
+        })}
+      </div>
+      <div class="inline-actions">
+        ${button({
+          label: demoModeEnabled ? "Disable demo mode" : "Enable demo mode",
+          attrs: "data-demo-toggle",
+        })}
       </div>
       <p class="text-muted" data-geo-fallback hidden>
-        Geolocation is disabled. Use manual confirmation button.
+        ${demoModeEnabled
+          ? "Demo mode is enabled. You can move through points manually."
+          : "Geolocation is disabled. Use manual confirmation button."
+        }
       </p>
     </article>
   `;
@@ -128,6 +148,8 @@ export async function runPage(ctx) {
       const statusNode = root.querySelector("[data-run-status]");
       const manualReachButton = /** @type {HTMLButtonElement | null} */ (root.querySelector("[data-manual-reach]"));
       const nextPointButton = /** @type {HTMLButtonElement | null} */ (root.querySelector("[data-next-point]"));
+      const finishRouteButton = /** @type {HTMLButtonElement | null} */ (root.querySelector("[data-finish-route]"));
+      const demoToggleButton = /** @type {HTMLButtonElement | null} */ (root.querySelector("[data-demo-toggle]"));
       const fallbackNode = root.querySelector("[data-geo-fallback]");
       const mapContainer = /** @type {HTMLElement | null} */ (root.querySelector("[data-map-canvas]"));
 
@@ -251,6 +273,16 @@ export async function runPage(ctx) {
           return;
         }
 
+        if (error.code === 2) {
+          setStatus("Unable to detect your location. You can continue manually.");
+          return;
+        }
+
+        if (error.code === 3) {
+          setStatus("Geolocation timed out. You can continue manually.");
+          return;
+        }
+
         setStatus("Geolocation issue. You can continue manually.");
       }
 
@@ -276,12 +308,28 @@ export async function runPage(ctx) {
         await ctx.router.refresh();
       };
 
+      const onFinishRoute = async () => {
+        await routeEngine.finishSelectedRoute();
+        ctx.router.navigate("/profile");
+      };
+
+      const onDemoToggle = async () => {
+        setDemoModeEnabled(!demoModeEnabled);
+        await ctx.router.refresh();
+      };
+
       manualReachButton?.addEventListener("click", onManualReach);
       nextPointButton?.addEventListener("click", onNextPoint);
+      finishRouteButton?.addEventListener("click", onFinishRoute);
+      demoToggleButton?.addEventListener("click", onDemoToggle);
 
       initMap();
 
-      if (geolocationSupported) {
+      if (demoModeEnabled) {
+        manualReachButton?.removeAttribute("hidden");
+        fallbackNode?.removeAttribute("hidden");
+        setStatus("Demo mode enabled. Manual progression is active.");
+      } else if (geolocationSupported) {
         setStatus("Requesting geolocation permission...");
 
         try {
@@ -308,10 +356,52 @@ export async function runPage(ctx) {
         ctx.audioService.stop();
         manualReachButton?.removeEventListener("click", onManualReach);
         nextPointButton?.removeEventListener("click", onNextPoint);
+        finishRouteButton?.removeEventListener("click", onFinishRoute);
+        demoToggleButton?.removeEventListener("click", onDemoToggle);
         lockedContentLinks.forEach((link) => {
           link.removeEventListener("click", preventLockedNavigation);
         });
       };
     },
   };
+}
+
+function isDemoModeEnabled() {
+  try {
+    const persisted = window.localStorage.getItem(DEMO_MODE_STORAGE_KEY);
+    if (persisted === "1") {
+      return true;
+    }
+
+    if (persisted === "0") {
+      return false;
+    }
+
+    const hash = window.location.hash || "";
+    const [, queryPart = ""] = hash.split("?");
+    const params = new URLSearchParams(queryPart);
+
+    if (params.get("demo") === "1") {
+      return true;
+    }
+
+    if (params.get("demo") === "0") {
+      return false;
+    }
+
+    return false;
+  } catch {
+    return false;
+  }
+}
+
+/**
+ * @param {boolean} enabled
+ */
+function setDemoModeEnabled(enabled) {
+  try {
+    window.localStorage.setItem(DEMO_MODE_STORAGE_KEY, enabled ? "1" : "0");
+  } catch {
+    // Ignore
+  }
 }

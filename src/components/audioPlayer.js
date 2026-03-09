@@ -82,6 +82,11 @@ export function bindAudioPlayer(root, { audioService }) {
       return;
     }
 
+    if (snapshot.hasError) {
+      statusNode.textContent = snapshot.errorMessage || "Audio is unavailable.";
+      return;
+    }
+
     if (!snapshot.src) {
       statusNode.textContent = `Ready ${snapshot.speed}x`;
       return;

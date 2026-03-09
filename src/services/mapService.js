@@ -182,7 +182,11 @@ export function createMapService() {
     }
 
     function destroy() {
-      map.destroy();
+      try {
+        map.destroy();
+      } catch {
+        // Ignore teardown errors to keep page stable.
+      }
     }
 
     return {

@@ -50,13 +50,21 @@ npm run dev
 
 ## Configure Yandex Maps API key
 
-Edit `src/data/config.json`:
+1. Copy `src/data/config.example.json` to `src/data/config.json`.
+2. Put your key into `YANDEX_MAPS_API_KEY`.
+
+`src/data/config.json` format:
 
 ```json
 {
   "YANDEX_MAPS_API_KEY": "your_key_here"
 }
 ```
+
+Security note:
+
+- keep `src/data/config.json` with empty value in public repositories
+- do not commit real production keys
 
 If key is empty, map panel shows:
 
@@ -65,6 +73,14 @@ If key is empty, map panel shows:
 Geolocation fallback:
 
 - if permission is denied, the app shows `I reached the point` button.
+- if GPS is unstable/unavailable, you can proceed manually.
+
+Demo mode (for live defense):
+
+- open route with `#/run?demo=1`, or
+- use `Enable demo mode` button on the Run page.
+
+In demo mode, manual progression controls are always available.
 
 ## Build
 
@@ -89,6 +105,20 @@ npm run build:pages
    - Set source to `GitHub Actions`.
 4. Push to `main` (or run workflow manually).
 5. Workflow `.github/workflows/deploy.yml` builds with `npm run build:pages` and deploys `dist`.
+
+## Final local testing checklist
+
+1. `npm install`
+2. `npm run dev`
+3. Open `#/run`:
+   - verify map fallback without API key
+   - verify map loads with valid key
+   - verify geolocation status updates
+   - verify manual `I reached the point` fallback works
+   - verify audio play/pause/stop/speed
+4. Verify tasks and articles unlock after point reach.
+5. Refresh the page and verify progress persistence.
+6. `npm run build:pages`
 
 ## Local state model
 
@@ -120,3 +150,9 @@ Hash router is used for GitHub Pages compatibility:
 - `#/articles/:articleId`
 - `#/profile`
 - `#/about`
+
+## Future improvements
+
+- move API key to encrypted runtime injection (for private production deployments)
+- add richer offline map fallback and cached content bundle
+- add automated unit/e2e tests for route progression and unlock logic

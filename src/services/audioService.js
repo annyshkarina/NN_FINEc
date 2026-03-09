@@ -12,6 +12,7 @@ export function createAudioService({ store }) {
   /** @type {Set<(snapshot: ReturnType<typeof getSnapshot>) => void>} */
   const listeners = new Set();
   let currentSrc = "";
+  let errorMessage = "";
 
   function getSnapshot() {
     return {
@@ -20,6 +21,8 @@ export function createAudioService({ store }) {
       currentTime: audio.currentTime,
       duration: Number.isFinite(audio.duration) ? audio.duration : 0,
       speed: audio.playbackRate,
+      hasError: errorMessage !== "",
+      errorMessage,
     };
   }
 
@@ -30,11 +33,17 @@ export function createAudioService({ store }) {
     }
   }
 
-  audio.addEventListener("play", emit);
+  audio.addEventListener("play", () => {
+    errorMessage = "";
+    emit();
+  });
   audio.addEventListener("pause", emit);
   audio.addEventListener("ended", emit);
   audio.addEventListener("timeupdate", emit);
-  audio.addEventListener("error", emit);
+  audio.addEventListener("error", () => {
+    errorMessage = "Audio file is unavailable or broken.";
+    emit();
+  });
 
   setSpeed(store.getState().audioSpeed);
 
@@ -48,6 +57,7 @@ export function createAudioService({ store }) {
 
     if (src !== currentSrc) {
       currentSrc = src;
+      errorMessage = "";
       audio.src = src;
       audio.load();
     }

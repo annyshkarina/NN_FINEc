@@ -7,30 +7,40 @@ const STORAGE_KEY = "financial-code-tour-state-v1";
  * @returns {AppState}
  */
 function sanitizeState(state) {
+  const toStringArray = (value) => (
+    Array.isArray(value)
+      ? Array.from(new Set(value.filter((item) => typeof item === "string")))
+      : []
+  );
+
+  const validLastKnownPosition = (
+    Array.isArray(state.lastKnownPosition) &&
+    state.lastKnownPosition.length === 2 &&
+    Number.isFinite(state.lastKnownPosition[0]) &&
+    Number.isFinite(state.lastKnownPosition[1])
+  )
+    ? /** @type {[number, number]} */ (state.lastKnownPosition)
+    : null;
+
   return {
     profile: {
-      name: typeof state.profile?.name === "string" ? state.profile.name : "",
-      age: Number.isInteger(state.profile?.age) ? state.profile.age : null,
+      name: typeof state.profile?.name === "string" ? state.profile.name.trim() : "",
+      age: Number.isInteger(state.profile?.age) && state.profile.age >= 0 ? state.profile.age : null,
     },
-    selectedRouteId: state.selectedRouteId ?? null,
+    selectedRouteId: typeof state.selectedRouteId === "string" ? state.selectedRouteId : null,
     selectedTransport: ["walk", "scooter", "car"].includes(state.selectedTransport)
       ? state.selectedTransport
       : "walk",
     currentPointIndex: Number.isInteger(state.currentPointIndex)
       ? Math.max(0, state.currentPointIndex)
       : 0,
-    reachedPoints: Array.isArray(state.reachedPoints) ? Array.from(new Set(state.reachedPoints)) : [],
-    unlockedTasks: Array.isArray(state.unlockedTasks) ? Array.from(new Set(state.unlockedTasks)) : [],
-    completedTasks: Array.isArray(state.completedTasks) ? Array.from(new Set(state.completedTasks)) : [],
-    unlockedArticles: Array.isArray(state.unlockedArticles)
-      ? Array.from(new Set(state.unlockedArticles))
-      : [],
-    finishedRoutes: Array.isArray(state.finishedRoutes) ? Array.from(new Set(state.finishedRoutes)) : [],
+    reachedPoints: toStringArray(state.reachedPoints),
+    unlockedTasks: toStringArray(state.unlockedTasks),
+    completedTasks: toStringArray(state.completedTasks),
+    unlockedArticles: toStringArray(state.unlockedArticles),
+    finishedRoutes: toStringArray(state.finishedRoutes),
     audioSpeed: [0.75, 1, 1.25, 1.5].includes(state.audioSpeed) ? state.audioSpeed : 1,
-    lastKnownPosition:
-      Array.isArray(state.lastKnownPosition) && state.lastKnownPosition.length === 2
-        ? state.lastKnownPosition
-        : null,
+    lastKnownPosition: validLastKnownPosition,
   };
 }
 

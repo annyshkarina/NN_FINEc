@@ -27,7 +27,7 @@ export async function articleDetailsPage(ctx) {
           <div class="image-grid">
             ${details.images
               .map((image) => `
-                <img src="${image}" alt="${details.title}" loading="lazy" />
+                <img src="${image}" alt="${details.title}" loading="lazy" onerror="this.style.display='none'" />
               `)
               .join("")}
           </div>

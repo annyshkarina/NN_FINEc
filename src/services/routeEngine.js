@@ -22,7 +22,18 @@ export function createRouteEngine({ contentService, store }) {
       return null;
     }
 
-    return bundle.points[state.currentPointIndex] || null;
+    if (bundle.points.length === 0) {
+      return null;
+    }
+
+    const maxIndex = bundle.points.length - 1;
+    const normalizedIndex = Math.max(0, Math.min(state.currentPointIndex, maxIndex));
+
+    if (normalizedIndex !== state.currentPointIndex) {
+      store.setCurrentPointIndex(normalizedIndex);
+    }
+
+    return bundle.points[normalizedIndex] || null;
   }
 
   async function unlockPoint(pointId) {
@@ -113,6 +124,16 @@ export function createRouteEngine({ contentService, store }) {
       done: true,
       routeCompleted: false,
     };
+  }
+
+  async function finishSelectedRoute() {
+    const bundle = await getSelectedRouteBundle();
+    if (!bundle) {
+      return { ok: false };
+    }
+
+    store.finishRoute(bundle.route.id);
+    return { ok: true };
   }
 
   async function getProgress() {
@@ -352,6 +373,7 @@ export function createRouteEngine({ contentService, store }) {
     unlockPoint,
     evaluatePosition,
     advanceToNextPoint,
+    finishSelectedRoute,
     getProgress,
     getTasksOverview,
     getTaskDetails,

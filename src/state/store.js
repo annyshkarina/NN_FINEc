@@ -66,7 +66,7 @@ function cloneState(value) {
  * @property {(routeId: string) => void} selectRoute
  * @property {(transport: TransportMode) => void} setTransport
  * @property {(index: number) => void} setCurrentPointIndex
- * @property {(payload: { pointId: string, taskId: string, articleId: string }) => void} markPointReached
+ * @property {(payload: { pointId: string, taskId?: string | null, articleId?: string | null }) => void} markPointReached
  * @property {(taskId: string) => void} completeTask
  * @property {(speed: number) => void} setAudioSpeed
  * @property {(position: [number, number], options?: { notify?: boolean }) => void} setLastKnownPosition
@@ -144,8 +144,14 @@ export function createStore({ storageService }) {
     update((current) => ({
       ...current,
       reachedPoints: addUnique(current.reachedPoints, pointId),
-      unlockedTasks: addUnique(current.unlockedTasks, taskId),
-      unlockedArticles: addUnique(current.unlockedArticles, articleId),
+      unlockedTasks:
+        typeof taskId === "string" && taskId.trim() !== ""
+          ? addUnique(current.unlockedTasks, taskId)
+          : current.unlockedTasks,
+      unlockedArticles:
+        typeof articleId === "string" && articleId.trim() !== ""
+          ? addUnique(current.unlockedArticles, articleId)
+          : current.unlockedArticles,
     }));
   }
 
