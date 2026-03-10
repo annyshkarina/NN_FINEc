@@ -50,7 +50,7 @@ export async function homePage(ctx) {
       </div>
     `
     : `
-      <p class="text-muted">Выберите экскурсию и начните прогулку по финансовым историям города.</p>
+      <p class="text-muted">Выберите маршрут, чтобы начать экскурсию.</p>
       <div class="inline-actions">
         ${linkButton({ label: "Выбрать маршрут", href: "#/excursions", variant: "primary" })}
       </div>
@@ -58,10 +58,10 @@ export async function homePage(ctx) {
 
   const content = `
     <section class="hero">
+      <p class="hero__kicker">ФинКод</p>
       <h1>Нижний Новгород: по стопам мошенника</h1>
       <p>
-        Самостоятельный аудиомаршрут по местам, где переплелись сделки, аферы,
-        доверие и финансовая грамотность.
+        Иммерсивный маршрут по финансовой истории, городским аферам и культуре доверия.
       </p>
       ${mascotCat({
         variant: "hero",

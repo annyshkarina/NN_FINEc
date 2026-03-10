@@ -11,7 +11,7 @@ export function audioPlayer({ pointId, audioSrc, speed }) {
     <section class="audio-player" data-audio-player data-point-id="${pointId}" data-audio-src="${audioSrc}">
       <div class="audio-player__controls">
         ${button({
-          label: "Слушать",
+          label: "Слушать аудио",
           variant: "primary",
           attrs: `data-audio-action="play" ${hasAudioSrc ? "" : "disabled"}`,
         })}

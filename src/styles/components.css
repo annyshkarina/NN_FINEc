@@ -79,6 +79,21 @@
   margin-bottom: 8px;
 }
 
+.hero__kicker {
+  display: inline-flex;
+  align-self: start;
+  margin-bottom: 8px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  border: 1px solid rgba(140, 224, 216, 0.52);
+  background: rgba(112, 207, 197, 0.2);
+  color: #d9fffa;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
 .hero p {
   color: rgba(230, 249, 245, 0.9);
   line-height: 1.48;

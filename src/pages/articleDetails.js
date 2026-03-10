@@ -61,7 +61,7 @@ export async function articleDetailsPage(ctx) {
         : ""
       }
     `
-    : `<p class="text-muted">Статья закрыта. Сначала дойдите до этой точки на маршруте.</p>`;
+    : `<p class="text-muted">Статья закрыта. Сначала дойдите до нужной точки.</p>`;
 
   return {
     activeNav: "articles",

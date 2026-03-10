@@ -37,7 +37,7 @@ export async function excursionsPage(ctx) {
               </div>
               <div class="inline-actions">
                 ${button({
-                  label: isActive ? "Выбран" : "Выбрать",
+                  label: isActive ? "Выбрано" : "Выбрать",
                   variant: "primary",
                   attrs: `data-select-route="${route.id}" ${isActive ? "disabled" : ""}`,
                 })}
@@ -59,7 +59,7 @@ export async function excursionsPage(ctx) {
       footer: `
         <div class="inline-actions">
           ${linkButton({ label: "На главную", href: "#/home" })}
-          ${linkButton({ label: "Перейти к маршруту", href: "#/run", variant: "primary" })}
+          ${linkButton({ label: "Продолжить маршрут", href: "#/run", variant: "primary" })}
         </div>
       `,
     }),

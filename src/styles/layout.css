@@ -29,6 +29,12 @@
   font-size: 12px;
 }
 
+.topbar__meta {
+  color: rgba(177, 222, 216, 0.82);
+  font-size: 11px;
+  line-height: 1.35;
+}
+
 .topbar__nav {
   display: flex;
   gap: 8px;

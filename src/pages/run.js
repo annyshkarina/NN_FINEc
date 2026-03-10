@@ -19,7 +19,7 @@ export async function runPage(ctx) {
       activeNav: "run",
       html: card({
         title: "Маршрут",
-        body: `<p class="text-muted">Перед стартом выберите экскурсию и транспорт.</p>`,
+        body: `<p class="text-muted">Выберите маршрут и транспорт перед началом.</p>`,
         footer: linkButton({ label: "Выбрать маршрут", href: "#/excursions", variant: "primary" }),
       }),
     };
@@ -46,7 +46,7 @@ export async function runPage(ctx) {
       activeNav: "run",
       html: card({
         title: "Маршрут",
-        body: `<p class="text-muted">Для этого маршрута не настроены точки.</p>`,
+        body: `<p class="text-muted">Для этого маршрута пока не настроены точки.</p>`,
       }),
     };
   }
@@ -96,12 +96,12 @@ export async function runPage(ctx) {
 
       <div class="inline-actions">
         ${linkButton({
-          label: hasArticleRef ? "Открыть статью" : "Статья недоступна",
+          label: hasArticleRef ? "Открыть статью" : "Статья закрыта",
           href: hasArticleRef ? `#/articles/${currentPoint.articleId}` : "#",
           attrs: (reached && hasArticleRef) ? "" : "aria-disabled=true data-locked-content=true",
         })}
         ${linkButton({
-          label: hasTaskRef ? "Открыть задание" : "Задание недоступно",
+          label: hasTaskRef ? "Открыть задание" : "Задание закрыто",
           href: hasTaskRef ? `#/tasks/${currentPoint.taskId}` : "#",
           attrs: (reached && hasTaskRef) ? "" : "aria-disabled=true data-locked-content=true",
         })}
@@ -131,8 +131,8 @@ export async function runPage(ctx) {
       </div>
       <p class="text-muted" data-geo-fallback hidden>
         ${demoModeEnabled
-          ? "Демо-режим активен. Переключайте точки вручную."
-          : "Геолокация недоступна. Используйте ручное подтверждение."
+          ? "Демо-режим включен. Маршрут можно пройти вручную."
+          : "Геолокация недоступна. Вы можете пройти маршрут вручную."
         }
       </p>
     </article>
@@ -281,7 +281,7 @@ export async function runPage(ctx) {
         fallbackNode?.removeAttribute("hidden");
 
         if (error.code === 1) {
-          setStatus("Доступ к геолокации запрещен. Подтверждайте точки вручную.");
+          setStatus("Геолокация недоступна. Вы можете пройти маршрут вручную.");
           return;
         }
 
@@ -340,7 +340,7 @@ export async function runPage(ctx) {
       if (demoModeEnabled) {
         manualReachButton?.removeAttribute("hidden");
         fallbackNode?.removeAttribute("hidden");
-        setStatus("Демо-режим включен. Доступно ручное прохождение.");
+        setStatus("Демо-режим включен. Маршрут можно пройти вручную.");
       } else if (geolocationSupported) {
         setStatus("Запрашиваем доступ к геолокации...");
 
@@ -352,12 +352,12 @@ export async function runPage(ctx) {
         } catch {
           manualReachButton?.removeAttribute("hidden");
           fallbackNode?.removeAttribute("hidden");
-          setStatus("Геолокация недоступна. Используйте ручное подтверждение.");
+          setStatus("Геолокация недоступна. Вы можете пройти маршрут вручную.");
         }
       } else {
         manualReachButton?.removeAttribute("hidden");
         fallbackNode?.removeAttribute("hidden");
-        setStatus("Геолокация не поддерживается на этом устройстве.");
+        setStatus("Геолокация недоступна. Вы можете пройти маршрут вручную.");
       }
 
       return () => {

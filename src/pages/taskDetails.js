@@ -22,7 +22,7 @@ export async function taskDetailsPage(ctx) {
   }
 
   const body = details.status === "locked"
-    ? `<p class="text-muted">Задание закрыто. Сначала дойдите до связанной точки.</p>`
+    ? `<p class="text-muted">Задание закрыто. Сначала дойдите до нужной точки.</p>`
     : `
       ${mascotCat({
         variant: "task",
