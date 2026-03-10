@@ -3,30 +3,81 @@
     "id": "route-1",
     "slug": "po-stopam-moshennika",
     "title": "Нижний Новгород: по стопам мошенника",
-    "description": "Главный городской маршрут о банковских аферах, доверии и финансовой безопасности.",
-    "theme": "Историческое расследование о деньгах, рисках и личной ответственности",
+    "description": "Большой маршрут по ключевым адресам, где городская история связана с доверием, риском и финансовой безопасностью.",
+    "theme": "История афер, банков и личной финансовой ответственности",
     "coverImage": "./assets/images/routes/route1.jpg",
     "startPointId": "point-1",
     "transportDurations": {
-      "walk": 125,
-      "scooter": 95,
-      "car": 80
+      "walk": 156,
+      "scooter": 117,
+      "car": 94
     },
-    "points": ["point-1", "point-2", "point-3", "point-4"]
+    "points": [
+      "point-1",
+      "point-2",
+      "point-3",
+      "point-4",
+      "point-5",
+      "point-6",
+      "point-7",
+      "point-8",
+      "point-9",
+      "point-10",
+      "point-11",
+      "point-12",
+      "point-13"
+    ]
   },
   {
     "id": "route-2",
-    "slug": "kupecheskie-riski",
-    "title": "Купеческие риски и репутация",
-    "description": "Компактный маршрут по точкам торговли, контрактов и финансовых ошибок.",
-    "theme": "Как репутация и договоренности влияли на экономику города",
+    "slug": "istorii-finansovyh-afer",
+    "title": "Истории финансовых афер Нижнего Новгорода",
+    "description": "Маршрут о городских схемах, уязвимостях доверия и практиках финансовой самозащиты.",
+    "theme": "Как исторические сюжеты помогают распознавать современные мошеннические паттерны",
     "coverImage": "./assets/images/routes/route2.jpg",
-    "startPointId": "point-5",
+    "startPointId": "point-14",
     "transportDurations": {
-      "walk": 85,
-      "scooter": 65,
-      "car": 50
+      "walk": 108,
+      "scooter": 81,
+      "car": 65
     },
-    "points": ["point-5", "point-6", "point-7"]
+    "points": [
+      "point-14",
+      "point-15",
+      "point-16",
+      "point-17",
+      "point-18",
+      "point-19",
+      "point-20",
+      "point-21",
+      "point-22"
+    ]
+  },
+  {
+    "id": "route-3",
+    "slug": "bankovskaya-istoriya-nn",
+    "title": "Банковская история Нижнего Новгорода",
+    "description": "Маршрут по ярмарочным и банковским локациям о цене ошибок, проверке партнёров и устойчивых финансовых решениях.",
+    "theme": "Банковская экосистема города и культура проверки финансовых решений",
+    "coverImage": "./assets/images/routes/route3.jpg",
+    "startPointId": "point-23",
+    "transportDurations": {
+      "walk": 132,
+      "scooter": 99,
+      "car": 79
+    },
+    "points": [
+      "point-23",
+      "point-24",
+      "point-25",
+      "point-26",
+      "point-27",
+      "point-28",
+      "point-29",
+      "point-30",
+      "point-31",
+      "point-32",
+      "point-33"
+    ]
   }
 ]
