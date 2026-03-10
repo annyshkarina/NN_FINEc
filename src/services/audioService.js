@@ -49,16 +49,61 @@ export function createAudioService({ store }) {
 
   /**
    * @param {string} src
+   * @returns {string}
+   */
+  function normalizeAudioSrc(src) {
+    const raw = String(src || "").trim();
+    if (!raw) {
+      return "";
+    }
+
+    if (/^https?:\/\//i.test(raw)) {
+      // Convert Google Drive share links to direct file access links.
+      if (raw.includes("drive.google.com")) {
+        const match = raw.match(/\/file\/d\/([^/]+)/);
+        if (match?.[1]) {
+          return `https://drive.google.com/uc?export=download&id=${match[1]}`;
+        }
+
+        try {
+          const url = new URL(raw);
+          const id = url.searchParams.get("id");
+          if (id) {
+            return `https://drive.google.com/uc?export=download&id=${id}`;
+          }
+        } catch {
+          // Ignore parse failures and return original URL.
+        }
+      }
+
+      return raw;
+    }
+
+    if (raw.startsWith("./assets/") || raw.startsWith("assets/") || raw.startsWith("/assets/")) {
+      const cleaned = raw
+        .replace(/^\.\//, "")
+        .replace(/^\/+/, "");
+      const base = import.meta.env.BASE_URL || "/";
+      const normalizedBase = base.endsWith("/") ? base : `${base}/`;
+      return `${normalizedBase}${cleaned}`;
+    }
+
+    return raw;
+  }
+
+  /**
+   * @param {string} src
    */
   async function play(src) {
-    if (!src) {
+    const normalizedSrc = normalizeAudioSrc(src);
+    if (!normalizedSrc) {
       throw new Error("Источник аудио не настроен.");
     }
 
-    if (src !== currentSrc) {
-      currentSrc = src;
+    if (normalizedSrc !== currentSrc) {
+      currentSrc = normalizedSrc;
       errorMessage = "";
-      audio.src = src;
+      audio.src = normalizedSrc;
       audio.load();
     }
 

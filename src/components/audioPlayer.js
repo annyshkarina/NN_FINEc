@@ -11,7 +11,7 @@ export function audioPlayer({ pointId, audioSrc, speed }) {
     <section class="audio-player" data-audio-player data-point-id="${pointId}" data-audio-src="${audioSrc}">
       <div class="audio-player__controls">
         ${button({
-          label: "Слушать",
+          label: "Слушать аудио",
           variant: "primary",
           attrs: `data-audio-action="play" ${hasAudioSrc ? "" : "disabled"}`,
         })}
@@ -26,7 +26,7 @@ export function audioPlayer({ pointId, audioSrc, speed }) {
           `).join("")}
         </select>
       </div>
-      <div class="audio-player__status" data-audio-status>${hasAudioSrc ? "Готово" : "Аудио недоступно"}</div>
+      <div class="audio-player__status" data-audio-status>${hasAudioSrc ? "Готово" : "Аудио недоступно для этой точки."}</div>
     </section>
   `;
 }
@@ -41,7 +41,7 @@ export function bindAudioPlayer(root, { audioService }) {
     return () => {};
   }
 
-  const src = wrapper.getAttribute("data-audio-src") || "";
+  const src = (wrapper.getAttribute("data-audio-src") || "").trim();
   const hasAudioSrc = src.trim() !== "";
   const statusNode = wrapper.querySelector("[data-audio-status]");
   const speedNode = /** @type {HTMLSelectElement | null} */ (wrapper.querySelector("[data-audio-speed]"));
@@ -57,7 +57,7 @@ export function bindAudioPlayer(root, { audioService }) {
     if (action === "play") {
       if (!src) {
         if (statusNode) {
-          statusNode.textContent = "Для этой точки нет аудио.";
+          statusNode.textContent = "Аудио недоступно для этой точки.";
         }
         return;
       }
@@ -66,7 +66,7 @@ export function bindAudioPlayer(root, { audioService }) {
         await audioService.play(src);
       } catch {
         if (statusNode) {
-          statusNode.textContent = "Не удалось запустить аудио.";
+          statusNode.textContent = "Аудио недоступно для этой точки.";
         }
       }
       return;
@@ -103,7 +103,7 @@ export function bindAudioPlayer(root, { audioService }) {
 
     if (!snapshot.src) {
       if (!hasAudioSrc) {
-        statusNode.textContent = "Аудио недоступно";
+        statusNode.textContent = "Аудио недоступно для этой точки.";
         return;
       }
 
